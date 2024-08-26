@@ -1,9 +1,9 @@
 import { useLoaderData } from 'react-router-dom'
-import './App.css'
-import CoffeeCard from './components/CoffeeCard';
+import CoffeeCard from '../components/CoffeeCard';
 import { useState } from 'react';
+import Navbar from '../components/Navbar';
 
-function App() {
+function Home() {
 
   const loadedCoffees = useLoaderData();
   const [coffees, setCoffees] = useState(loadedCoffees)
@@ -14,6 +14,7 @@ function App() {
         <h1 className='text-2xl text-purple-700'>A Coffee Store</h1>
         <h1 className='text-xl text-purple-900'>There are Available Coffee: {coffees.length}</h1>
       </div>
+      <Navbar></Navbar>
       <div className='grid md:grid-cols-2 md:w-9/12 mx-auto gap-4'>
         {
           coffees.map(coffee => <CoffeeCard
@@ -28,4 +29,4 @@ function App() {
   )
 }
 
-export default App
+export default Home
