@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
     const { _id, name, supplier, taste, category, photo } = coffee;
 
     const handleDelete = _id => {
@@ -30,6 +31,8 @@ const CoffeeCard = ({ coffee }) => {
                                 text: "Your file has been deleted.",
                                 icon: "success"
                             });
+                            const remaining = coffees.filter(coffee => coffee._id !== _id)
+                            setCoffees(remaining)
                         }
                     })
             }
@@ -58,7 +61,9 @@ const CoffeeCard = ({ coffee }) => {
             </div>
             <div className="flex flex-col mx-auto my-auto gap-2 me-0">
                 <button className="btn btn-warning">View</button>
-                <button className="btn btn-neutral">Edit</button>
+                <Link to={`updateCoffee/${_id}`}>
+                    <button className="btn btn-neutral">Edit</button>
+                </Link>
                 <button className="btn btn-error"
                     onClick={() => handleDelete(_id)}
                 >Delete</button>
