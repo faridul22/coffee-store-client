@@ -1,12 +1,27 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../Providers/AuthProvider";
 
 
 const Login = () => {
+    const { signIn } = useContext(AuthContext);
+    console.log(signIn)
     const handleLogin = event => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password)
+
+        signIn(email, password)
+            .then(singInUser => {
+                const user = singInUser.user;
+                console.log(user)
+                alert("user signIn successfully")
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
     return (
         <div className="hero bg-base-200 min-h-screen">
@@ -36,6 +51,9 @@ const Login = () => {
                             <button className="btn btn-primary">Login</button>
                         </div>
                     </form>
+                    <p>
+                        New to Coffee Store? <Link to='/register'>Please Register</Link>
+                    </p>
                 </div>
             </div>
         </div>
