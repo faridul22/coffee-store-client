@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Providers/AuthProvider";
+import Swal from "sweetalert2";
 
 
 const Register = () => {
@@ -15,10 +16,29 @@ const Register = () => {
         console.log(email, password)
 
         createUser(email, password)
-            .then(createdUser => {
-                const user = createdUser.user;
-                console.log(user)
-                alert("user Created Successfully")
+            .then(result => {
+                console.log(result.user)
+                const creationTime = result?.user?.metadata.creationTime
+                const user = { email, creationTime }
+                fetch('http://localhost:5000/users', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(user)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        Swal.fire({
+                            position: "top",
+                            icon: "success",
+                            title: "User information has been saved on MongoDB",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    })
+
             })
             .catch(error => {
                 console.log(error)
